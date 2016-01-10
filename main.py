@@ -169,6 +169,7 @@ for f in files:
 for i in img.keys():
     if i != 'einstein':
         print(i, compare(img['einstein'], img[i]))
+        print(i, mse_of_sqrts(img['einstein'], img[i]))
 
 
 # keys = list(img.keys())
