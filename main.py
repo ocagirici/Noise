@@ -17,8 +17,54 @@ def mse_matrix(original, noisy):
             diff += (int(original[i][j]) - int(noisy[i][j])) ** 2
     return diff / (len(original) ** 2)
 
- #  def sort_mse_vertically(original, noisy):
-    #  for i
+def mergeSort(alist):
+    if len(alist)>1:
+        mid = len(alist)//2
+        lefthalf = alist[:mid]
+        righthalf = alist[mid:]
+        mergeSort(lefthalf)
+        mergeSort(righthalf)
+        i=0
+        j=0
+        k=0
+        while i < len(lefthalf) and j < len(righthalf):
+            if lefthalf[i] < righthalf[j]:
+                alist[k]=lefthalf[i]
+                i=i+1
+            else:
+                alist[k]=righthalf[j]
+                j=j+1
+            k=k+1
+
+        while i < len(lefthalf):
+            alist[k]=lefthalf[i]
+            i=i+1
+            k=k+1
+
+        while j < len(righthalf):
+            alist[k]=righthalf[j]
+            j=j+1
+            k=k+1
+
+def sort_mse_vertically(original):
+    size = len(original)
+    vertical = {}
+    for i in range(size):
+        count = 0
+        for j in range(size):
+            count += original[i][j]
+        vertical[i] = count
+    return mergeSort(vertical)
+
+def sort_mse_horizontally(original):
+    size = len(original)
+    horizontal = {}
+    for i in range(size):
+        count = 0
+        for j in range(size):
+            count += original[j][i]
+        horizontal[i] = count
+    return mergeSort(horizontal)
 
 def mse_of_sqrts(original, noisy):
     numsqrt = math.floor(math.sqrt(len(original)))
@@ -29,15 +75,25 @@ def mse_of_sqrts(original, noisy):
         currstarty = 0
         currendy = numsqrt - 1
         for j in range(numsqrt):
-            or = {}
+            orr = {}
             no = {}
-            or = original[[i*currstartx:i*currendx],[i*currstarty:i*currendy]]
-            no = noisy[[i*currstartx:i*currendx],[i*currstarty:i*currendy]]
-            sqrtmatrix[i][j] = mse_matrix(or, no)
+            orr = original[i*currstartx : (i*currendx + 1), i*currstarty : (i*currendy + 1)]
+            no = noisy[i*currstartx : (i*currendx + 1), i*currstarty : (i*currendy + 1)]
+            sqrtmatrix[i][j] = mse_matrix(orr, no)
             currstarty += numsqrt
             currendy += numsqrt
         currstartx += numsqrt
         currendx += numsqrt
+    ver = {}
+    hor = {}
+    ver = sort_mse_vertically(sqrtmatrix)
+    hor = sort_mse_horizontally(sqrtmatrix)
+    mul = 0
+    for i in range(numsqrt):
+        mul += ver[i] * hor[i]
+    mul /= numsqrt
+    res = math.sqrt(mul)
+    return res
 
 def adj_cells(i, j, size):
     adj = []
