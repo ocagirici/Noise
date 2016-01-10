@@ -17,6 +17,27 @@ def mse_matrix(original, noisy):
             diff += (int(original[i][j]) - int(noisy[i][j])) ** 2
     return diff / (len(original) ** 2)
 
+ #  def sort_mse_vertically(original, noisy):
+    #  for i
+
+def mse_of_sqrts(original, noisy):
+    numsqrt = math.floor(math.sqrt(len(original)))
+    sqrtmatrix = [[0 for i in range(numsqrt)] for j in range(numsqrt)]
+    currstartx = 0
+    currendx = numsqrt - 1
+    for i in range(numsqrt):
+        currstarty = 0
+        currendy = numsqrt - 1
+        for j in range(numsqrt):
+            or = {}
+            no = {}
+            or = original[[i*currstartx:i*currendx],[i*currstarty:i*currendy]]
+            no = noisy[[i*currstartx:i*currendx],[i*currstarty:i*currendy]]
+            sqrtmatrix[i][j] = mse_matrix(or, no)
+            currstarty += numsqrt
+            currendy += numsqrt
+        currstartx += numsqrt
+        currendx += numsqrt
 
 def adj_cells(i, j, size):
     adj = []
