@@ -56,7 +56,7 @@ def compare_without_sort(original, noisy):
         diff_matrix[i][j] = stdev(adj)
         sum += diff_matrix[i, j]
         m.append(diff_matrix[i, j])
-    return stdev(m)
+    return stdev(m)  #   lol
 
 
 def compare(original, noisy):
